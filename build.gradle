@@ -19,15 +19,15 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-mustache'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc:2.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-mustache:2.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.3'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
-    implementation group: 'org.springframework.data', name: 'spring-data-redis', version: '2.3.1.RELEASE'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'mysql:mysql-connector-java'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.5.3'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.3'
 }
 
 test {

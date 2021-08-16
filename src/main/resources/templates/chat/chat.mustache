@@ -1,0 +1,32 @@
+{{>components/header}}
+
+<div class="container">
+  <div class="low col-12">
+    <div class="text-center mt-4">
+      <h1>채팅방</h1>
+      <a type="button" class="btn btn-primary" id="targetCreateChat" data-toggle="modal" data-target="#createChatForm">채팅방 만들기</a>
+    </div>
+  </div>
+  <div class="low col-6" style="float: none; margin:0 auto;">
+    <table class="table table-horizontal table-bordered mt-3 text-center">
+      <thead class="thead-strong">
+      <tr>
+        <th class="col-2">방 번호</th>
+        <th>방이름</th>
+      </tr>
+      </thead>
+      <tbody id="tbody">
+      {{#chatRoom}}
+        <tr>
+          <td>{{id}}</td>
+          <td><a href="/chat/detail?id={{id}}&title={{title}}">{{title}}</a></td>
+        </tr>
+      {{/chatRoom}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{{>chat/modal/chattingRoomForm}}
+{{>components/footer}}
+<script src="/js/chat/chat.js"></script>

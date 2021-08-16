@@ -1,0 +1,40 @@
+<!-- Modal -->
+<div class="modal fade" id="createChatForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="min-width: 250px;" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">채팅방 만들기</h5>
+        <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+          <div class="col-md-12 form-inline">
+            <div class="col-md-12">
+              <form action="/chat/create" method="post">
+                <div class="row my-3 pt-3 inline">
+                  <div class="col-6 col-md-2 pr-0 text-right align-self-center">방이름 :</div>
+                  <input type="text" name="title" id="title"
+                         class="form-control form-control-muted col-6 col-md-4 "
+                         placeholder="ex)형준이방"/>
+                </div>
+                <div class="row pt-3 inline">
+                  <div class="col-6 text-center">
+                    <input type="submit" class="btn btn-success" value="방 만들기"/>
+                  </div>
+                  <div class="col-4 text-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- end list -->
