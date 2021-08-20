@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div class="modal fade" id="createShortUrlForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="min-width: 250px;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">숏컷 생성하기</h5>
+                <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="col-md-12 form-inline">
+                        <div class="col-md-12">
+                            <div class="row my-3 pt-3 inline">
+                                <div class="col-6 col-md-2 pr-0 text-right align-self-center">Url</div>
+                                <input type="text" name="originalUrl" id="originalUrl"
+                                       class="form-control form-control-muted col-6 col-md-4 " />
+                            </div>
+                            <div class="row pt-3 inline">
+                                <div class="col-6 text-center">
+                                    <input type="button" class="btn btn-success" onclick="createShortUrl()" value="숏컷 생성하기"/>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- end list -->
+
+<script>
+    function createShortUrl() {
+        let originalUrl = $('#originalUrl').val();
+
+        $.ajax({
+            url: '/ust/shorturl/create?url=' + originalUrl,
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (data) {
+                $('#shortUrl').val(data);
+                $('#originalUrl').empty();
+                $('#createShortUrlForm').modal('hide');
+            },
+            error: function () {
+                alert('error!');
+            }
+        })
+    }
+</script>

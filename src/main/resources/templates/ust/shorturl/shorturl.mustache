@@ -1,0 +1,20 @@
+{{>components/header}}
+
+<div class="container">
+    <div class="low col-12">
+        <div class="text-center mt-4">
+            <h1>shortUrl 생성</h1>
+            <a type="button" class="btn btn-primary mt-3" id="targetCreateShortUrl" data-toggle="modal" data-target="#createShortUrlForm">숏컷 생성하기</a>
+        </div>
+    </div>
+    <div class="low col-6 mt-4" style="float: none; margin:0 auto;">
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">shotUrl</span>
+            <input type="text" class="form-control" id="shortUrl" placeholder="shortUrl" aria-label="shortUrl" aria-describedby="basic-addon1">
+        </div>
+    </div>
+</div>
+
+{{>ust/shorturl/modal/shorturlForm}}
+{{>components/footer}}
+<script src="/js/chat/chat.js"></script>

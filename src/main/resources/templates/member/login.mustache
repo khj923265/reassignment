@@ -1,0 +1,24 @@
+{{>components/header}}
+
+<div class="container low col-6 pt-5">
+    <div class="text-center">
+        <h1>Login Page!!!</h1>
+        <form>
+            <div class="col-12 mt-3">
+                <label>이메일 : </label>
+                <input type="email" name="email" id="email">
+            </div>
+            <div class="col-12 mt-3">
+                <label>비밀번호 : </label>
+                <input type="password" name="password"
+                       placeholder="8자이상 특수문자포함"
+                       pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$">
+            </div>
+        </form>
+        <div>
+            <a class="btn btn-primary" href="/member/signup">회원가입</a>
+        </div>
+    </div>
+</div>
+
+{{>components/footer}}
