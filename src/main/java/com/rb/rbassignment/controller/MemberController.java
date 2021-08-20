@@ -1,9 +1,8 @@
 package com.rb.rbassignment.controller;
 
 import com.rb.rbassignment.domain.Member;
+import com.rb.rbassignment.representative.MemberResponse;
 import com.rb.rbassignment.service.MemberService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/member")
@@ -38,29 +34,20 @@ public class MemberController {
     @PostMapping("/signup")
     public ModelAndView signup(@RequestBody Member member) {
         ModelAndView mv = new ModelAndView();
-        int result = memberService.signup(member);
-        if (result == 1) {
-            mv.addObject("result", "성공");
-        } else {
-            mv.addObject("result", "실패");
-        }
 
+        member.setRoleUSER(); // role USER 넣어줌
+
+        MemberResponse memberResponse = memberService.save(member);
+        mv.addObject("member", memberResponse);
         mv.setViewName("/member/login");
         return mv;
     }
 
-    @PostMapping("/restsignup")
+    @PostMapping("/signup2")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> restSignup(@RequestBody Member member) {
-        int result = memberService.signup(member);
-        Map<String, Object> map = new HashMap<>();
+    public MemberResponse signup2(@RequestBody Member member) {
+        return memberService.save(member);
 
-        if (result == 1) {
-            map.put("result", "성공");
-        } else {
-            map.put("result", "실패");
-        }
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
 }

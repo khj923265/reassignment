@@ -10,8 +10,21 @@ spring:
     lettuce:
       pool:
         max-active: 10
-        max-idle: 10
+        max-idle: 10 # 추가 커넥션을 해지하지 않고 풀에서 유휴상태로 유지할 수 있는 최대 연결 수
         min-idle: 2
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate # DB 초기화 전략
+    properties:
+      hibernate:
+        format_sql: true # 콘솔에 출력되는 JPA 실행 쿼리를 가독성있게 표현
+logging:
+  level:
+    org.springframework: debug
+    org.hibernate.SQL: info
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 #mybatis:
 #  config-location: classpath:mybatis-config.xml
 #  type-aliases-package: com.rb.rbassignment
