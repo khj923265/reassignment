@@ -5,5 +5,6 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 public interface MessageRedisRepository extends CrudRepository<Message, String> {
-        List<Message> findAllByChatroom_id(String chatRoom_id);
+        List<Message> findAllByChatroomId(String chatRoom_id);
+        Message findByChatroomId(String chatRoom_id);
 }

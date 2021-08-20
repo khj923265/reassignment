@@ -24,5 +24,8 @@ let chatService = {
         alert('error!');
       }
     });
+  },
+  pushMessage: function () {
+
   }
 }

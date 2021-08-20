@@ -9,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/chat")
@@ -38,11 +40,20 @@ public class ChatController {
     @GetMapping("/detail")
     public String detailPage(@RequestParam("title") String title,
                                 @RequestParam("id") String id, Model model) {
-        Optional<List<Message>> messageList = chatService.getMessageList(id);
+        List<Message> messageList = chatService.getMessageList(id);
+        model.addAttribute("chatroomId", messageList.get(0).getChatroomId());
         model.addAttribute("message", messageList);
         model.addAttribute("title", title);
 
         return "/chat/detail";
+    }
+
+    @PostMapping("/message")
+    @ResponseBody
+    public void insertMessage(@RequestBody Message message) {
+
+        System.out.println("message : " + message);
+
     }
 
 }

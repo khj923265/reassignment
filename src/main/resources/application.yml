@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:mysql://192.168.101.129:3306/rb?characterEncoding=utf8
-    username: khj
+    url: jdbc:mysql://rbassignment.cksffj4rvypk.ap-northeast-2.rds.amazonaws.com:3306/rb?characterEncoding=utf8
+    username: root
     password: gudwns12
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:

@@ -11,12 +11,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableRedisRepositories
 public class RedisConfig {
 
-    // redisConnectionFactory -> redis와 connection을 생성해주는 객체
+    // redisConnectionFactory -> redis 와 connection 을 생성해주는 객체
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory();
     }
 
+    // redisTemplate 을 사용하는 방식 repository 를 사용하는 방식 (일단 redisTemplate 도 추가는 해놓음)
     @Bean
     public RedisTemplate<?, ?> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
