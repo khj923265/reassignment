@@ -58,34 +58,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         http.cors().and().csrf().disable().formLogin().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션사용 X
-                .and()
-                .authorizeRequests() // 페이지 권한 설정
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션사용 X
+            .and()
+            .authorizeRequests() // 페이지 권한 설정
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/**").permitAll()
-                .and() // 로그인 설정
-                .formLogin()
-                .loginPage("/member/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and() // 로그아웃 설정
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .and()
-                // 403 예외처리 핸들링
-                .exceptionHandling().accessDeniedPage("/user-access-denied")
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+            .antMatchers("/**").permitAll()
+            .and() // 로그인 설정
+            .formLogin()
+            .loginPage("/member/login")
+            .usernameParameter("email")
+            .defaultSuccessUrl("/member/loginSuccess")
+            .permitAll()
+            .and() // 로그아웃 설정
+            .logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutSuccessUrl("/")
+            .invalidateHttpSession(true)
+            .and()
+            // 403 예외처리 핸들링
+            .exceptionHandling().accessDeniedPage("/user-access-denied")
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                UsernamePasswordAuthenticationFilter.class);
         // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
 
         http.authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest)
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+            .requestMatchers(CorsUtils::isPreFlightRequest)
+            .permitAll()
+            .anyRequest()
+            .authenticated();
     }
 
     @Override

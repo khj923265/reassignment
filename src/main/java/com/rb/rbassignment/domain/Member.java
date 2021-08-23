@@ -2,7 +2,6 @@ package com.rb.rbassignment.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +11,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.ToString;
 
 @Entity
 @Getter
+@ToString
 @Table(name = "member")
 public class Member {
 

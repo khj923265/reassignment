@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberResponse {
+public class MemberRequest {
     private Long id;
     private String email;
     private String password;
     private String name;
     private String tel;
+
 }

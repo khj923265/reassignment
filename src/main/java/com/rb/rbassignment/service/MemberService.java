@@ -3,6 +3,7 @@ package com.rb.rbassignment.service;
 import com.rb.rbassignment.data.domain.PrincipalDetails;
 import com.rb.rbassignment.domain.Member;
 import com.rb.rbassignment.repository.MemberRepository;
+import com.rb.rbassignment.representative.MemberRequest;
 import com.rb.rbassignment.representative.MemberResponse;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,8 @@ public class MemberService implements UserDetailsService {
 
     private final PasswordEncoder bCryptPasswordEncoder;
 
-    public MemberService(MemberRepository memberRepository,@Lazy PasswordEncoder bCryptPasswordEncoder) {
+    public MemberService(MemberRepository memberRepository,
+        @Lazy PasswordEncoder bCryptPasswordEncoder) {
         this.memberRepository = memberRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -28,24 +30,32 @@ public class MemberService implements UserDetailsService {
     // 시큐리티 session(내부 Authentication(내부 UserDetails))
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException((username)));
-        if(!ObjectUtils.isEmpty(member)){
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Member member = memberRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException((email)));
+        if (!ObjectUtils.isEmpty(member)) {
             return new PrincipalDetails(member);
         }
         return null;
     }
 
-    public MemberResponse save(Member member) {
+    @Transactional
+    public MemberResponse save(MemberRequest memberRequest) {
+        Member member = Member.builder()
+            .email(memberRequest.getEmail())
+            .password(bCryptPasswordEncoder.encode(memberRequest.getPassword()))
+            .name(memberRequest.getName())
+            .tel(memberRequest.getTel())
+            .build();
+        member.setRoleUSER();
+
         memberRepository.save(member);
 
         return MemberResponse.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .name(member.getName())
-                .tel(member.getTel())
-                .build();
-
+            .id(member.getId())
+            .email(member.getEmail())
+            .name(member.getName())
+            .tel(member.getTel())
+            .build();
     }
 }

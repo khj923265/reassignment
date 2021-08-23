@@ -3,17 +3,18 @@
 <div class="container low col-6 pt-5">
     <div class="text-center">
         <h1>Login Page!!!</h1>
-        <form>
+        <form action="/member/login" method="post">
             <div class="col-12 mt-3">
-                <label>이메일 : </label>
-                <input type="email" name="email" id="email">
+              <label class="col-2" for="email">이메일 : </label>
+                <input type="text" name="email" id="email"
+                       placeholder="email">
             </div>
             <div class="col-12 mt-3">
-                <label>비밀번호 : </label>
-                <input type="password" name="password"
-                       placeholder="8자이상 특수문자포함"
-                       pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$">
+                <label class="col-2" for="password">비밀번호 : </label>
+                <input type="text" name="password" id="password"
+                       placeholder="비밀번호">
             </div>
+          <input class="btn btn-default" type="submit" value="로그인">
         </form>
         <div>
             <a class="btn btn-primary" href="/member/signup">회원가입</a>

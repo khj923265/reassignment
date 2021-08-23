@@ -5,23 +5,23 @@
         <h1>Signup Page!!!</h1>
         <form action="/member/signup" method="post">
             <div class="col-12 mt-3">
-                <label class="col-2">이메일 : </label>
-                <input class="col-4" type="email" name="email" id="email"
+                <label class="col-2" for="email">이메일 : </label>
+                <input class="col-4" type="text" name="email" id="email"
                         placeholder="email@naver.com">
             </div>
             <div class="col-12 mt-3">
-                <label class="col-2">비밀번호 : </label>
-                <input class="col-4" type="password" name="password"
+                <label class="col-2" for="password">비밀번호 : </label>
+                <input class="col-4" type="text" name="password" id="password"
                        placeholder="8자이상 특수문자포함"
                        pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$">
             </div>
             <div class="form-group low col-12 mt-3 inline">
-                <label class="col-2">이름 : </label>
+                <label class="col-2" for="name">이름 : </label>
                 <input class="col-4" type="text" name="name" id="name"
                         placeholder="홍길동">
             </div>
             <div class="form-group low col-12 mt-3 inline">
-                <label class="col-2">전화번호 : </label>
+                <label class="col-2" for="tel">전화번호 : </label>
                 <input class="col-4" type="text" name="tel" id="tel"
                         placeholder="010-0000-0000">
             </div>
