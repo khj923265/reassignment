@@ -24,4 +24,10 @@ public class UstController {
         return "https://www.shortUrl.com";
     }
 
+    @GetMapping("/test")
+    @ResponseBody
+    public String test() {
+        return "test";
+    }
+
 }

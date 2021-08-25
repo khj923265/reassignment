@@ -1,19 +1,22 @@
 package com.rb.rbassignment.controller;
 
 import com.rb.rbassignment.data.config.JwtTokenProvider;
-import com.rb.rbassignment.domain.Member;
+import com.rb.rbassignment.domain.Role;
 import com.rb.rbassignment.repository.MemberRepository;
 import com.rb.rbassignment.representative.MemberRequest;
 import com.rb.rbassignment.representative.MemberResponse;
 import com.rb.rbassignment.service.MemberService;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Controller
@@ -34,12 +37,12 @@ public class MemberController {
 
     @GetMapping("login")
     public String loginPage() {
-        return "/member/login";
+        return "member/login";
     }
 
     @GetMapping("/signup")
     public String signupPage() {
-        return "/member/signup";
+        return "member/signup";
     }
 
     @PostMapping("/signup")
@@ -48,8 +51,21 @@ public class MemberController {
 
         MemberResponse memberResponse = memberService.save(member);
         mv.addObject("member", memberResponse);
-        mv.setViewName("/member/login");
+        mv.setViewName("member/login");
         return mv;
+    }
+
+    @GetMapping("/loginsuccess")
+    @ResponseBody
+    public String loginSuccess(HttpServletRequest request, HttpServletResponse response) {
+        String accessToken = jwtTokenProvider.createAccessToken("khj", Role.USER.getSymbol());
+
+        Cookie cookie = new Cookie("X-AUTH-TOKEN", accessToken);
+        cookie.setMaxAge(60 * 60);
+        response.addCookie(cookie);
+        response.setHeader("X-AUTH-TOKEN", accessToken);
+        //TODO accessToken 으로 바꾸고 refreshToken 생성 및 로직 추가 구현
+        return accessToken;
     }
 
 }

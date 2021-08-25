@@ -45,7 +45,7 @@ public class Member {
         this.tel = tel;
     }
 
-    public void setRoleUSER() {
-        this.role = Role.USER;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

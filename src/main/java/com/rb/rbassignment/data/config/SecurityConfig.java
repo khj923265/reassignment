@@ -1,5 +1,7 @@
 package com.rb.rbassignment.data.config;
 
+import com.rb.rbassignment.controller.securityhandler.CustomAccessDeniedHandler;
+import com.rb.rbassignment.controller.securityhandler.CustomAuthFailureHandler;
 import com.rb.rbassignment.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.cors.CorsUtils;
 
 import java.util.Optional;
 
@@ -26,8 +27,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private MemberService memberService;
-    private JwtTokenProvider jwtTokenProvider;
+    private final MemberService memberService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 패스워드 인코딩을 사용하기 위한 빈
     @Bean
@@ -58,35 +59,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         http.cors().and().csrf().disable().formLogin().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션사용 X
-            .and()
-            .authorizeRequests() // 페이지 권한 설정
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/**").permitAll()
-            .and() // 로그인 설정
-            .formLogin()
-            .loginPage("/member/login")
-            .usernameParameter("email")
-            .defaultSuccessUrl("/member/loginSuccess")
-            .permitAll()
-            .and() // 로그아웃 설정
-            .logout()
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/")
-            .invalidateHttpSession(true)
-            .and()
-            // 403 예외처리 핸들링
-            .exceptionHandling().accessDeniedPage("/user-access-denied")
-            .and()
-            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션사용 X
+                .and()
+                .authorizeRequests() // 페이지 권한 설정
+                .antMatchers("/ust/**").hasRole("USER")
+                .anyRequest().permitAll()
+//                .and()
+//                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and() // 로그인 설정
+                .formLogin()
+                .loginPage("/member/login")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/member/loginsuccess")
+                .failureHandler(new CustomAuthFailureHandler())
+                .permitAll()
+                .and() // 로그아웃 설정
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                        UsernamePasswordAuthenticationFilter.class);
         // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
 
-        http.authorizeRequests()
-            .requestMatchers(CorsUtils::isPreFlightRequest)
-            .permitAll()
-            .anyRequest()
-            .authenticated();
+//        http.authorizeRequests()
+//                .requestMatchers(CorsUtils::isPreFlightRequest)
+//                .permitAll()
+//                .anyRequest()
+//                .authenticated();
     }
 
     @Override

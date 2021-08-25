@@ -2,6 +2,7 @@ package com.rb.rbassignment.service;
 
 import com.rb.rbassignment.data.domain.PrincipalDetails;
 import com.rb.rbassignment.domain.Member;
+import com.rb.rbassignment.domain.Role;
 import com.rb.rbassignment.repository.MemberRepository;
 import com.rb.rbassignment.representative.MemberRequest;
 import com.rb.rbassignment.representative.MemberResponse;
@@ -47,7 +48,8 @@ public class MemberService implements UserDetailsService {
             .name(memberRequest.getName())
             .tel(memberRequest.getTel())
             .build();
-        member.setRoleUSER();
+
+        member.setRole(Role.USER);
 
         memberRepository.save(member);
 

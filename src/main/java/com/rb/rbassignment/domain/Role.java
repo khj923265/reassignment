@@ -1,8 +1,5 @@
 package com.rb.rbassignment.domain;
 
-import lombok.Getter;
-
-@Getter
 public enum Role {
     ADMIN("1", "ROLE_ADMIN"),
     USER("2", "ROLE_USER");
@@ -21,4 +18,5 @@ public enum Role {
     public String getSymbol() {
         return symbol;
     }
+
 }

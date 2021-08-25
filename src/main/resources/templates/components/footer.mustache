@@ -1,12 +1,29 @@
 </body>
 </html>
 <!-- Core JS -->
-<script
-    src="/assets/vendor/jquery/dist/jquery.min.js"></script>
-<script
-    src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
 <script src="/assets/vendor/js-cookie/js.cookie.js"></script>
-<script
-    src="/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
-<script
-    src="/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+<script src="/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+
+<script>
+    function shortPage() {
+        let accessToken = localStorage.getItem("accesstoken");
+
+        //TODO postman 으로 헤더에 추가시 정상 작동하는데 페이지전환문제인지 헤더문제인지 안됨
+
+        $.ajax({
+            url: '/ust/shorturl',
+            type: 'GET',
+            async: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("X-AUTH-TOKEN",accessToken);
+            },
+            success: function () {
+                location.replace("/ust/shorturl")
+            },
+            error: function () {
+                alert('error!');
+            }
+        });
+    }
+</script>
