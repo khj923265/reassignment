@@ -19,7 +19,6 @@ import org.springframework.util.ObjectUtils;
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
-
     private final PasswordEncoder bCryptPasswordEncoder;
 
     public MemberService(MemberRepository memberRepository,

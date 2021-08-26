@@ -64,7 +64,7 @@ public class MemberController {
         cookie.setMaxAge(60 * 60);
         response.addCookie(cookie);
         response.setHeader("X-AUTH-TOKEN", accessToken);
-        //TODO accessToken 으로 바꾸고 refreshToken 생성 및 로직 추가 구현
+
         return accessToken;
     }
 
