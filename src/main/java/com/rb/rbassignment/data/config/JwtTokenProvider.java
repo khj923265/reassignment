@@ -1,12 +1,12 @@
 package com.rb.rbassignment.data.config;
 
-import com.rb.rbassignment.domain.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,19 +16,19 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
 @Component
+@PropertySource("classpath:secretkey.properties")
 public class JwtTokenProvider {
 
     @Value("${jwt.secret.key}")
     private String secretKey;
 
     // 토큰 유효시간
-    static final long accessTokenValidTime = 5 * 60 * 1000L;
+    static final long accessTokenValidTime = 10 * 1000L;
 
     static final long refreshTokenValidTime = 24 * 60 * 60 * 1000L;
 
@@ -54,34 +54,45 @@ public class JwtTokenProvider {
     }
 
     // JWT 리프레시토큰 생성
-//    public String createRefreshToken() {
-//        Claims claims = Jwts.claims();
-//        Date now = new Date();
-//        return Jwts.builder()
-//                .setClaims(claims)
-//                .setIssuedAt(now)
-//                .setExpiration(new Date(now.getTime() + refreshTokenValidTime))
-//                .signWith(SignatureAlgorithm.HS256, secretKey)
-//                .compact();
-//    }
+    public String createRefreshToken() {
+        Claims claims = Jwts.claims();
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + refreshTokenValidTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // 토큰에서 회원 정보 추출
-    public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    public String getUsername(String token) {
+
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody().getSubject();
     }
 
-//     Request의 Header에서 token 값을 가져옵니다. "X-AUTH-TOKEN" : "TOKEN값'
+    public String getUsernameByCookie(HttpServletRequest request) {
+        final Cookie[] cookies = request.getCookies();
+        if (cookies == null) return null;
+        for (Cookie cookie : cookies) {
+            if ("USER".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+        return null;
+    }
+
     public String resolveAccessToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
-    }
-
-    public String resolveRefreshToken(HttpServletRequest request) {
         final Cookie[] cookies = request.getCookies();
         if (cookies == null) return null;
         for (Cookie cookie : cookies) {

@@ -1,8 +1,5 @@
 package com.rb.rbassignment.controller;
 
-import com.rb.rbassignment.data.config.JwtTokenProvider;
-import com.rb.rbassignment.domain.Role;
-import com.rb.rbassignment.repository.MemberRepository;
 import com.rb.rbassignment.representative.MemberRequest;
 import com.rb.rbassignment.representative.MemberResponse;
 import com.rb.rbassignment.service.MemberService;
@@ -11,12 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Controller
@@ -24,15 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 public class MemberController {
 
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
-    private final JwtTokenProvider jwtTokenProvider;
 
-    public MemberController(MemberService memberService,
-        MemberRepository memberRepository,
-        JwtTokenProvider jwtTokenProvider) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.memberRepository = memberRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @GetMapping("login")
@@ -56,16 +42,8 @@ public class MemberController {
     }
 
     @GetMapping("/loginsuccess")
-    @ResponseBody
-    public String loginSuccess(HttpServletRequest request, HttpServletResponse response) {
-        String accessToken = jwtTokenProvider.createAccessToken("khj", Role.USER.getSymbol());
-
-        Cookie cookie = new Cookie("X-AUTH-TOKEN", accessToken);
-        cookie.setMaxAge(60 * 60);
-        response.addCookie(cookie);
-        response.setHeader("X-AUTH-TOKEN", accessToken);
-
-        return accessToken;
+    public String loginSuccess() {
+        return "index";
     }
 
 }

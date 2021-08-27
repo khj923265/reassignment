@@ -34,7 +34,7 @@ public class ChatController {
     public String chatPage(Model model) {
         List<ChatRoom> chatRoomList = chatService.getChatRoomList();
         model.addAttribute("chatRoom", chatRoomList);
-        return "/chat/chat";
+        return "chat/chat";
     }
 
     @GetMapping("/detail")
@@ -45,7 +45,7 @@ public class ChatController {
         model.addAttribute("message", messageList);
         model.addAttribute("title", title);
 
-        return "/chat/detail";
+        return "chat/detail";
     }
 
     @PostMapping("/message")

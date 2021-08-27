@@ -2,8 +2,10 @@ package com.rb.rbassignment.data.config;
 
 import com.rb.rbassignment.controller.securityhandler.CustomAccessDeniedHandler;
 import com.rb.rbassignment.controller.securityhandler.CustomAuthFailureHandler;
+import com.rb.rbassignment.controller.securityhandler.LoginSuccessHandler;
 import com.rb.rbassignment.service.MemberService;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -51,12 +53,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // static 디렉터리의 하위 파일 목록은 인증 무시 ( = 항상통과 )
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/assets/**");
+//        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/assets/**", "/static/**");
+//        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().disable();
+
 
         http.cors().and().csrf().disable().formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션사용 X
@@ -70,24 +74,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/member/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/member/loginsuccess")
+//                .defaultSuccessUrl("/member/loginsuccess")
+                .successHandler(new LoginSuccessHandler(jwtTokenProvider, memberService))
                 .failureHandler(new CustomAuthFailureHandler())
                 .permitAll()
                 .and() // 로그아웃 설정
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/member/login")
+                .deleteCookies("X-AUTH-TOKEN")
+                .deleteCookies("USER")
                 .invalidateHttpSession(true)
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                .exceptionHandling()
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, memberService),
                         UsernamePasswordAuthenticationFilter.class);
         // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
-
-//        http.authorizeRequests()
-//                .requestMatchers(CorsUtils::isPreFlightRequest)
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated();
     }
 
     @Override
