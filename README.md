@@ -42,7 +42,7 @@
 
 ### 주요 타겟 기술
 - NGINX 를 사용해 로드밸런싱 구현
-- Spring Security + JWT 를 이용한 인증, 인가 구현 
+- Spring Security + JWT 를 이용한 인증, 인가 구현  
 accessToken (Redis), refreshToken (MySQL) 에 저장 후 Cookie(HTTPOnly)
 에 accessToken 만 저장해 만료시 재발급
 - JPA QueryDsl 세팅 및 간단한 CRUD 작성 ( 딥하게 공부해야함 )
