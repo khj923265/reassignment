@@ -4,10 +4,8 @@ import com.rb.rbassignment.domain.ChatRoom;
 import com.rb.rbassignment.domain.Message;
 import com.rb.rbassignment.repository.ChatRoomRedisRepository;
 import com.rb.rbassignment.repository.MessageRedisRepository;
-
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

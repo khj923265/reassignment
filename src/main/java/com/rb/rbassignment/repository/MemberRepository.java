@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByEmail(String userEmail);
 
+    // JPQL -> QueryDsl 로 변경
     @Modifying
     @Query("UPDATE Member m SET m.refreshToken = :refreshToken WHERE m.email = :email")
     int updateRefreshToken(String email, String refreshToken);
