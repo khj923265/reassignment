@@ -60,6 +60,6 @@ tasks.withType(JavaCompile) {
     options.annotationProcessorGeneratedSourcesDirectory = file(generated)
 }
 
-clean {
+clean.doLast {
     delete file(generated)
 }
