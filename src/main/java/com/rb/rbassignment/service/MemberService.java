@@ -5,9 +5,12 @@ import com.rb.rbassignment.domain.AccessToken;
 import com.rb.rbassignment.domain.Member;
 import com.rb.rbassignment.domain.Role;
 import com.rb.rbassignment.repository.AccessTokenRedisRepository;
+import com.rb.rbassignment.repository.MemberQueryRepository;
 import com.rb.rbassignment.repository.MemberRepository;
 import com.rb.rbassignment.representative.MemberRequest;
 import com.rb.rbassignment.representative.MemberResponse;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,12 +26,16 @@ public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
     private final AccessTokenRedisRepository accessTokenRedisRepository;
+    private final MemberQueryRepository memberQueryRepository;
 
     public MemberService(MemberRepository memberRepository,
-                         @Lazy PasswordEncoder bCryptPasswordEncoder, AccessTokenRedisRepository accessTokenRedisRepository) {
+        @Lazy PasswordEncoder bCryptPasswordEncoder,
+        AccessTokenRedisRepository accessTokenRedisRepository,
+        MemberQueryRepository memberQueryRepository) {
         this.memberRepository = memberRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.accessTokenRedisRepository = accessTokenRedisRepository;
+        this.memberQueryRepository = memberQueryRepository;
     }
 
     // 시큐리티 session(내부 Authentication(내부 UserDetails))
@@ -74,11 +81,30 @@ public class MemberService implements UserDetailsService {
         memberRepository.updateRefreshToken(email, refreshToken);
     }
 
+    @Transactional
+    public void updateRefreshTokenOnQueryDsl(String email, String refreshToken) {
+        memberQueryRepository.updateRefreshToken(email, refreshToken);
+    }
+
     public String getAccessToken(String email) {
         return accessTokenRedisRepository.findById(email).get().getAccessToken();
     }
 
     public String getRefreshToken(String email) {
         return memberRepository.findByEmail(email).get().getRefreshToken();
+    }
+
+    public List<MemberResponse> getMemberListByMembershipRank(String membershipRank) {
+        List<Member> memberList = memberQueryRepository.findByMembershipRank(membershipRank);
+        List<MemberResponse> memberResponseList = new ArrayList<>();
+        for (Member member : memberList) {
+            MemberResponse memberResponse = MemberResponse.builder()
+                .email(member.getEmail())
+                .name(member.getName())
+                .membershipRank(member.getMembershipRank())
+                .build();
+            memberResponseList.add(memberResponse);
+        }
+        return memberResponseList;
     }
 }

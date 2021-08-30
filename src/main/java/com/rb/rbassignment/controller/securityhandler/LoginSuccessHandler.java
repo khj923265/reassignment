@@ -37,7 +37,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                 .accessToken(accessToken)
                 .build());
 
-        memberService.updateRefreshToken(email, refreshToken);
+        memberService.updateRefreshTokenOnQueryDsl(email, refreshToken);
 
         Cookie cookie = new Cookie("X-AUTH-TOKEN", accessToken);
         cookie.setMaxAge(60 * 60); // 1시간

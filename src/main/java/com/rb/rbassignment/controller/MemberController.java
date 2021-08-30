@@ -3,6 +3,7 @@ package com.rb.rbassignment.controller;
 import com.rb.rbassignment.representative.MemberRequest;
 import com.rb.rbassignment.representative.MemberResponse;
 import com.rb.rbassignment.service.MemberService;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +43,28 @@ public class MemberController {
     }
 
     @GetMapping("/loginsuccess")
-    public String loginSuccess() {
-        return "index";
+    public ModelAndView loginSuccess() {
+        ModelAndView mv = new ModelAndView();
+        List<MemberResponse> memberResponseList = memberService.getMemberListByMembershipRank("gold");
+
+        mv.addObject("membershipRankList", memberResponseList);
+        mv.setViewName("index");
+
+        return mv;
+    }
+
+    @GetMapping("/membership")
+    public ModelAndView membershipPage() {
+        ModelAndView mv = new ModelAndView();
+
+        //TODO QueryDsl 성공 데이터 더 넣고 꾸미기
+        List<MemberResponse> membershipGoldList = memberService.getMemberListByMembershipRank("gold");
+        List<MemberResponse> membershipSilverList = memberService.getMemberListByMembershipRank("silver");
+        mv.addObject("membershipGoldList", membershipGoldList);
+        mv.addObject("membershipSilverList", membershipSilverList);
+
+        mv.setViewName("membership/membership");
+        return mv;
     }
 
 }

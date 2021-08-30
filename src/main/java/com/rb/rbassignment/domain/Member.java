@@ -32,6 +32,8 @@ public class Member {
     private String tel;
     @Column
     private String refreshToken;
+    @Column
+    private String membershipRank;
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
@@ -39,13 +41,14 @@ public class Member {
     public Member(){};
 
     @Builder
-    public Member(Long id, String email, String password, String name, String tel, String refreshToken) {
+    public Member(Long id, String email, String password, String name, String tel, String refreshToken, String membershipRank) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.tel = tel;
         this.refreshToken = refreshToken;
+        this.membershipRank = membershipRank;
     }
 
     public void setRole(Role role) {

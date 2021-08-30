@@ -56,4 +56,11 @@ public class ChatController {
 
     }
 
+    @GetMapping("/test")
+    public String test(Model model) {
+        List<ChatRoom> chatRoomList = chatService.getChatRoomList();
+        model.addAttribute("chatRoom", chatRoomList);
+        return "membership/membership";
+    }
+
 }

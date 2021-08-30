@@ -1,0 +1,41 @@
+{{>components/header}}
+
+<div class="container">
+  <div class="low col-12">
+    <div class="text-center mt-4">
+      <h1>멤버쉽 리스트</h1>
+    </div>
+  </div>
+
+  <div class="low" style="float: none; margin:0 auto;">
+    <div class="col-6" style="float: none; margin:0 auto;">
+      <table class="table mt-3 text-center">
+        <thead class="thead-strong">
+        <tr>
+          <th>회원이름</th>
+          <th>회원 이메일</th>
+          <th>멤버쉽 등급</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#membershipGoldList}}
+          <tr class="table-warning">
+            <td>{{ name }}</td>
+            <td>{{ email }}</a></td>
+            <td>{{ membershipRank }}</td>
+          </tr>
+        {{/membershipGoldList}}
+        {{#membershipSilverList}}
+          <tr class="table-active">
+            <td>{{ name }}</td>
+            <td>{{ email }}</a></td>
+            <td>{{ membershipRank }}</td>
+          </tr>
+        {{/membershipSilverList}}
+        </tbody>
+      </table>
+    </div>
+
+</div>
+
+{{>components/footer}}

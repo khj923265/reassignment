@@ -27,7 +27,7 @@ public class RedisConfig {
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         //TODO EC2 Redis 성공시 redisStandaloneConfiguration 를 LettuceConnectionFactory 파라미터에 적용
-        // AWS ElastiCache  적용시 집어넣자... EC2 안되는 이유를 못찾음
+        // AWS ElastiCache  적용시 집어넣자... EC2 안되는 이유를 못찾음 (VPN 문제같음)
         RedisStandaloneConfiguration redisStandaloneConfiguration =
                 new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(host);
