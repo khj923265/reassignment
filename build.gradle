@@ -39,7 +39,6 @@ dependencies {
 
     implementation group: 'com.querydsl', name: 'querydsl-jpa', version: querydslVersion
     implementation group: 'com.querydsl', name: 'querydsl-apt', version: querydslVersion
-    implementation group: 'com.querydsl', name: 'querydsl-core', version: querydslVersion
 
     annotationProcessor group: 'com.querydsl', name: 'querydsl-apt', version: querydslVersion
     annotationProcessor group: 'com.querydsl', name: 'querydsl-apt', version: querydslVersion, classifier: 'jpa'
