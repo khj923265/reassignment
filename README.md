@@ -47,3 +47,13 @@ accessToken (Redis), refreshToken (MySQL) 에 저장 후 Cookie(HTTPOnly)
 에 accessToken 만 저장해 만료시 재발급
 - JPA QueryDsl 세팅 및 간단한 CRUD 작성 ( 딥하게 공부해야함 )
 - (번외) Mustache 템플릿엔진 사용해본 걸로 😝
+
+### Mustache 추가로 사용해본 경험 추가
+가볍고 편한 만큼 너무 기능이 적어 한계가 있다고 느낌
+++Handlebars.js 사용을 고려해야함
+
+Enum 사용시 key, value 함께 사용시 아래방법으로 사용 가능
+{{#enumObject}}
+    {{key}}
+    {{value}}
+{{/enumObject}}
